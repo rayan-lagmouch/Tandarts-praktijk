@@ -10,7 +10,12 @@ class Appointment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
-        'content'
+        'patient_id',
+        'employee_id',
+        'date',
+        'time',
+        'status',
+        'is_active',
+        'note',
     ];
 }
