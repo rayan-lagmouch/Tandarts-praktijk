@@ -37,6 +37,7 @@ class UsersResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -58,6 +59,7 @@ class UsersResource extends Resource
         return [
             'index' => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUsers::route('/create'),
+            'view' => Pages\ViewUsers::route('/{record}'),
             'edit' => Pages\EditUsers::route('/{record}/edit'),
         ];
     }
