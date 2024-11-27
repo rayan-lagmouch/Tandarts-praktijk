@@ -54,6 +54,7 @@ class AppointmentResource extends Resource
                         'denied' => 'Denied',
                         'pending' => 'Pending',
                     ])
+                    ->native(false)
                     ->required(),
                 Forms\Components\Toggle::make('is_active')
                     ->required(),
