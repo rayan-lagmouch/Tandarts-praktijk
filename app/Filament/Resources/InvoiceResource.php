@@ -2,10 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use Illuminate\Validation\ValidationException;
-use App\Filament\Resources\AppointmentResource\Pages;
-use App\Filament\Resources\AppointmentResource\RelationManagers;
-use App\Models\Appointment;
+use App\Filament\Resources\InvoiceResource\Pages;
+use App\Filament\Resources\InvoiceResource\RelationManagers;
+use App\Models\Invoice;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -14,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class AppointmentResource extends Resource
+class InvoiceResource extends Resource
 {
-    protected static ?string $model = Appointment::class;
+    protected static ?string $model = Invoice::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -26,44 +25,27 @@ class AppointmentResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('patient_id')
                     ->required()
-                    ->numeric()
-                    ->afterStateUpdated(function ($state) {
-                        if (!\App\Models\Patient::find($state)) {
-                            throw ValidationException::withMessages([
-                                'patient_id' => 'The selected patient does not exist.',
-                            ]);
-                        }
-                    }),
-                Forms\Components\TextInput::make('employee_id')
+                    ->numeric(),
+                Forms\Components\TextInput::make('treatment_id')
                     ->required()
-                    ->numeric()
-                    ->afterStateUpdated(function ($state) {
-                        if (!\App\Models\Employee::find($state)) {
-                            throw ValidationException::withMessages([
-                                'employee_id' => 'The selected employee does not exist.',
-                            ]);
-                        }
-                    }),
+                    ->numeric(),
+                Forms\Components\TextInput::make('number')
+                    ->required()
+                    ->maxLength(255),
                 Forms\Components\DatePicker::make('date')
                     ->required(),
-                Forms\Components\TimePicker::make('time')
-                    ->required(),
-                Forms\Components\Select::make('status')
-                    ->options([
-                        'confirmed' => 'Confirmed',
-                        'denied' => 'Denied',
-                        'pending' => 'Pending',
-                    ])
-                    ->native(false)
-                    ->required(),
+                Forms\Components\TextInput::make('amount')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('status')
+                    ->required()
+                    ->maxLength(255),
                 Forms\Components\Toggle::make('is_active')
                     ->required(),
                 Forms\Components\Textarea::make('note')
                     ->columnSpanFull(),
             ]);
     }
-
-
 
     public static function table(Table $table): Table
     {
@@ -72,13 +54,17 @@ class AppointmentResource extends Resource
                 Tables\Columns\TextColumn::make('patient_id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('employee_id')
+                Tables\Columns\TextColumn::make('treatment_id')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('number')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('date')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('time'),
+                Tables\Columns\TextColumn::make('amount')
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_active')
@@ -91,7 +77,7 @@ class AppointmentResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ]) 
+            ])
             ->filters([
                 //
             ])
@@ -115,9 +101,9 @@ class AppointmentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAppointments::route('/'),
-            'create' => Pages\CreateAppointment::route('/create'),
-            'edit' => Pages\EditAppointment::route('/{record}/edit'),
+            'index' => Pages\ListInvoices::route('/'),
+            'create' => Pages\CreateInvoice::route('/create'),
+            'edit' => Pages\EditInvoice::route('/{record}/edit'),
         ];
     }
 }
