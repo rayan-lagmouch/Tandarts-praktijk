@@ -22,6 +22,10 @@ class PatientResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-circle';
 
+    protected static ?string $navigationGroup = 'System management';
+
+    protected static ?int $navigationSort = 2;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -33,12 +37,12 @@ class PatientResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([ 
+            ->columns([
                 Tables\Columns\TextColumn::make('number')
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('medical_record'),
-                
+
                 Tables\Columns\TextColumn::make('note'),
 
                 Tables\Columns\IconColumn::make('is_active')
