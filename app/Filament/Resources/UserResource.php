@@ -7,6 +7,9 @@ use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -19,9 +22,10 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
-    protected static ?string $navigationGroup = 'System management';
+    protected static ?string $navigationGroup = 'User Management';
 
     protected static ?int $navigationSort = 1;
+
 
     public static function form(Form $form): Form
     {
@@ -29,16 +33,15 @@ class UserResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(15),
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
+                    ->maxLength(25),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(50),
             ]);
     }
 
@@ -50,9 +53,6 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -68,6 +68,13 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->requiresConfirmation()
+                    ->color('danger')
+                    ->modalHeading('Delete user')
+                    ->modalDescription('Are you sure you\'d like to delete this user? This cannot be undone.')
+                    ->modalSubmitActionLabel('Yes, delete it')
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -76,6 +83,18 @@ class UserResource extends Resource
             ]);
     }
 
+    public static function infolist(Infolist $infolist): InfoList
+    {
+        return $infolist
+            ->schema([
+                Section::make('User Information')
+                ->schema([
+                    TextEntry::make('name')->label('User Name'),
+                    TextEntry::make('email')->label('User Email'),
+                    TextEntry::make('created_at')->label('User Registration Date'),
+                ])
+            ]);
+    }
     public static function getRelations(): array
     {
         return [
@@ -88,8 +107,8 @@ class UserResource extends Resource
         return [
             'index' => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/create'),
-            'view' => Pages\ViewUser::route('/{record}'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'view' => Pages\ViewUser::route('/{record}/view'),
+            'edit' => Pages\EditUser::route('/{record}'),
         ];
     }
 }
