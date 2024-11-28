@@ -1,6 +1,6 @@
 <footer class="bg-gray-800 text-white py-8">
     <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- About Us Section -->
+
         <div>
             <h3 class="text-xl font-bold mb-4">About Dental Clinic</h3>
             <p class="text-gray-400">
@@ -8,7 +8,7 @@
             </p>
         </div>
 
-        <!-- Quick Links Section -->
+
         <div>
             <h3 class="text-xl font-bold mb-4">Quick Links</h3>
             <ul class="space-y-2">
@@ -19,7 +19,7 @@
             </ul>
         </div>
 
-        <!-- Contact Section -->
+
         <div>
             <h3 class="text-xl font-bold mb-4">Contact Us</h3>
             <p class="text-gray-400">
@@ -42,7 +42,7 @@
         </div>
     </div>
 
-    <!-- Bottom Bar -->
+
     <div class="border-t border-gray-700 mt-8 pt-4 text-center text-gray-500">
         &copy; {{ date('Y') }} Dental Clinic. All rights reserved.
     </div>
