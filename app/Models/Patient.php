@@ -1,5 +1,4 @@
 <?php
-// app/Models/Patient.php
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +12,7 @@ class Patient extends Model
         'note',
     ];
 
-    // Relationship with the Person model
+
     public function person()
     {
         return $this->belongsTo(Person::class, 'person_id');

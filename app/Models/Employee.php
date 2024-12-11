@@ -1,5 +1,5 @@
 <?php
-// app/Models/Employee.php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +15,6 @@ class Employee extends Model
         'note',
     ];
 
-    // Relationship with the Person model
     public function person()
     {
         return $this->belongsTo(Person::class, 'person_id');
