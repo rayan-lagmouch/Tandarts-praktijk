@@ -29,6 +29,12 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->userMenuItems([
                 MenuItem::make()
+                    ->label('Homepage')
+                    ->icon('heroicon-o-home')
+                    ->url('/')
+            ])
+            ->userMenuItems([
+                MenuItem::make()
                     ->label('Dashboard')
                     ->icon('heroicon-o-cog-6-tooth')
                     ->url('/app')
