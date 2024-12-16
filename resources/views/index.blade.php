@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('hero')
     <!-- Hero Section with a Placeholder Image -->
     <div class="relative bg-blue-600 text-white py-16 text-center">
