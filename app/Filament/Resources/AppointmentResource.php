@@ -10,10 +10,22 @@ use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Carbon\Carbon;
+use Filament\Notifications\Notification;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
 
 class AppointmentResource extends Resource
 {
     protected static ?string $model = Appointment::class;
+
+    protected static ?string $navigationIcon = 'heroicon-o-calendar';
+
+    protected static ?string $navigationGroup = 'Appointments Management';
+
+    protected static ?int $navigationSort = 2;
 
     public static function table(Tables\Table $table): Tables\Table
     {
@@ -54,7 +66,11 @@ class AppointmentResource extends Resource
                     ->sortable(),
             ])
             ->filters([])
-            ->actions([]);
+            ->actions([
+                EditAction::make(),
+                DeleteAction::make(),
+            ])
+            ->bulkActions([]);
     }
 
     public static function form(Forms\Form $form): Forms\Form
@@ -93,7 +109,6 @@ class AppointmentResource extends Resource
                     ->minDate(Carbon::today())
                     ->required(),
 
-
                 Forms\Components\Select::make('time')
                     ->label('Time')
                     ->options([
@@ -115,6 +130,21 @@ class AppointmentResource extends Resource
                         'cancelled' => 'Cancelled',
                     ])
                     ->required(),
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make('Appointment Information')
+                    ->schema([
+                        TextEntry::make('patient.full_name')->label('Patient Name'),
+                        TextEntry::make('employee.full_name')->label('Employee Name'),
+                        TextEntry::make('date')->label('Appointment Date'),
+                        TextEntry::make('time')->label('Appointment Time'),
+                        TextEntry::make('status')->label('Appointment Status'),
+                    ])
             ]);
     }
 
