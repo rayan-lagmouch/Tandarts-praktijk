@@ -12,6 +12,7 @@
                 <a href="/" class="text-gray-700 hover:text-blue-500">Home</a>
                 <a href="/services" class="text-gray-700 hover:text-blue-500">Services</a>
                 <a href="/about" class="text-gray-700 hover:text-blue-500">About Us</a>
+                <a href="/appointment" class="text-gray-700 hover:text-blue-500">Appointment</a>
             </div>
         </div>
 
