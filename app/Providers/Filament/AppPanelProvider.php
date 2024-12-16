@@ -33,6 +33,12 @@ class AppPanelProvider extends PanelProvider
             ->profile(isSimple: false)
             ->userMenuItems([
                 MenuItem::make()
+                    ->label('Homepage')
+                    ->icon('heroicon-o-home')
+                    ->url('/')
+            ])
+            ->userMenuItems([
+                MenuItem::make()
                 ->label('Admin')
                 ->icon('heroicon-o-cog-6-tooth')
                 ->url('/admin')
