@@ -41,7 +41,8 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
-                    ->maxLength(50),
+                    ->maxLength(50)
+                    ->regex('/^[a-zA-Z0-9]*$/')
             ]);
     }
 

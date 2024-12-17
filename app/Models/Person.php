@@ -1,32 +1,35 @@
 <?php
-// app/Models/Person.php
+
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
 
 class Person extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'first_name',
+        'middle_name',
         'last_name',
         'date_of_birth',
-        // other fields
+        'is_active',
+        'note',
     ];
 
-    // Cast date_of_birth to Carbon instance
-    protected $casts = [
-        'date_of_birth' => 'datetime',
-    ];
-
-    public function employees()
+    public function user()
     {
-        return $this->hasMany(Employee::class);
+        return $this->hasOne(User::class);
     }
 
-    public function patients()
+    public function patient()
     {
-        return $this->hasMany(Patient::class);
+        return $this->hasOne(Patient::class);
+    }
+
+    public function employee()
+    {
+        return $this->hasOne(Employee::class);
     }
 }
-

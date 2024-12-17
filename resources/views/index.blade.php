@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('hero')
     <!-- Hero Section with a Placeholder Image -->
     <div class="relative bg-blue-600 text-white py-16 text-center">
@@ -34,7 +33,7 @@
     </div>
 
     <!-- Testimonials Section -->
-    <div class="md:col-span-12 mt-16 bg-gray-50 py-12">
+    <div class="md:col-span-12 mt-16 py-12">
         <h2 class="text-3xl font-bold text-center text-gray-800">What Our Patients Say</h2>
         <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
             @foreach(['Excellent service', 'Highly recommend', 'Friendly staff'] as $testimonial)
@@ -54,7 +53,7 @@
         <p class="mt-4">
             Don’t wait, schedule your visit with one of our experienced dentists.
         </p>
-        <a href="#" class="mt-6 inline-block bg-white text-blue-600 py-3 px-6 rounded-lg hover:bg-gray-200">
+        <a href="/appointment" class="mt-6 inline-block bg-white text-blue-600 py-3 px-6 rounded-lg hover:bg-gray-200">
             Book Now
         </a>
     </div>
