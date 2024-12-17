@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class TreatmentResource extends Resource
 {
@@ -54,20 +55,27 @@ class TreatmentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('employee.name'),
-                Tables\Columns\TextColumn::make('patient.name'),
+                // Use employee relationship properly
+                Tables\Columns\TextColumn::make('employee.name')
+                    ->label('Employee'),
+                Tables\Columns\TextColumn::make('patient.name')
+                    ->label('Patient'),
                 Tables\Columns\TextColumn::make('treatment_type'),
                 Tables\Columns\TextColumn::make('date')
                     ->date(),
                 Tables\Columns\TextColumn::make('time')
                     ->time(),
                 Tables\Columns\TextColumn::make('cost')
-                    ->currency('€'),
-                Tables\Columns\BadgeColumn::make('status')
-                    ->enum([
-                        'treated' => 'Treated',
-                        'untreated' => 'Untreated',
-                    ]),
+                    ->formatStateUsing(fn ($state) => number_format($state, 2) . ' €'),
+                // Using TextColumn with conditional badges
+                Tables\Columns\TextColumn::make('status')
+                    ->label('Status')
+                    ->formatStateUsing(fn ($state) => match ($state) {
+                        'treated' => '<span class="badge bg-success">Treated</span>',
+                        'untreated' => '<span class="badge bg-danger">Untreated</span>',
+                        default => '',
+                    })
+                    ->html(), // Use HTML formatting to render badges
                 Tables\Columns\BooleanColumn::make('is_active')
                     ->label('Active'),
                 Tables\Columns\TextColumn::make('created_at')

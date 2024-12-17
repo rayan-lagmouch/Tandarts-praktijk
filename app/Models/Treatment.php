@@ -31,4 +31,5 @@ class Treatment extends Model
     {
         return $this->belongsTo(Employee::class);
     }
+
 }
