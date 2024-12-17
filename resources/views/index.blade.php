@@ -53,7 +53,7 @@
         <p class="mt-4">
             Don’t wait, schedule your visit with one of our experienced dentists.
         </p>
-        <a href="#" class="mt-6 inline-block bg-white text-blue-600 py-3 px-6 rounded-lg hover:bg-gray-200">
+        <a href="/appointment" class="mt-6 inline-block bg-white text-blue-600 py-3 px-6 rounded-lg hover:bg-gray-200">
             Book Now
         </a>
     </div>

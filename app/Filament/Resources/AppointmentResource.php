@@ -23,9 +23,9 @@ class AppointmentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar';
 
-    protected static ?string $navigationGroup = 'Appointments Management';
+    protected static ?string $navigationGroup = 'Healthcare Management';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 3;
 
     public static function table(Tables\Table $table): Tables\Table
     {

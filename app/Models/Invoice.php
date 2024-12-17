@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'patient_id',
         'treatment_id',
@@ -16,25 +19,44 @@ class Invoice extends Model
         'is_active',
         'note',
     ];
-    
+
+    /**
+     * Relationship to the Patient model.
+     */
     public function patient()
     {
         return $this->belongsTo(Patient::class);
     }
 
+    /**
+     * Relationship to the Treatment model.
+     */
     public function treatment()
     {
         return $this->belongsTo(Treatment::class);
     }
-}
 
-<?php
+    /**
+     * Accessor to format the invoice status.
+     */
+    public function getFormattedStatusAttribute()
+    {
+        return ucfirst(str_replace('_', ' ', $this->status));
+    }
 
-namespace App\Models;
+    /**
+     * Scope to filter paid invoices.
+     */
+    public function scopePaid($query)
+    {
+        return $query->where('status', 'Paid');
+    }
 
-use Illuminate\Database\Eloquent\Model;
-
-class Invoice extends Model
-{
-    //
+    /**
+     * Scope to filter unpaid invoices.
+     */
+    public function scopeUnpaid($query)
+    {
+        return $query->where('status', 'Unpaid');
+    }
 }
