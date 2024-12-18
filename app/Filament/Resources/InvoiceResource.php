@@ -12,7 +12,6 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
 
 class InvoiceResource extends Resource
@@ -55,7 +54,9 @@ class InvoiceResource extends Resource
                     ->label('Invoice Number')
                     ->required()
                     ->maxLength(255)
-                    ->unique('invoices', 'number', ignoreRecord: true),
+                    ->unique('invoices', 'number', ignoreRecord: true)
+                    ->rule('regex:/^[0-9]+$/')
+                    ->validationAttribute('Invoice Number'),
 
                 Forms\Components\DatePicker::make('date')
                     ->label('Invoice Date')
@@ -64,7 +65,8 @@ class InvoiceResource extends Resource
                 Forms\Components\TextInput::make('amount')
                     ->label('Amount')
                     ->required()
-                    ->numeric(),
+                    ->rule('regex:/^[0-9]+(\.[0-9]{1,2})?$/') // Positive numbers with up to 2 decimals
+                    ->validationAttribute('Amount'),
 
                 Forms\Components\Select::make('status')
                     ->label('Status')
@@ -137,13 +139,12 @@ class InvoiceResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-                // Custom PDF Action
                 Tables\Actions\Action::make('pdf') // Custom Action to download PDF
-                ->label('PDF')
-                ->color('success')
-                ->icon('heroicon-o-document') 
-                ->url(fn (Invoice $record) => route('invoices.pdf', $record->id)) // Use route for PDF download
-                ->openUrlInNewTab(),                        
+                    ->label('PDF')
+                    ->color('success')
+                    ->icon('heroicon-o-document')
+                    ->url(fn (Invoice $record) => route('invoices.pdf', $record->id)) // Use route for PDF download
+                    ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -152,23 +153,30 @@ class InvoiceResource extends Resource
 
     public static function mutateFormDataBeforeCreate(array $data): array
     {
-        try {
-            return $data;
-        } catch (QueryException $e) {
-            if ($e->errorInfo[1] == 1062) { // MySQL Duplicate Entry Error Code
-                Notification::make()
-                    ->title('Error')
-                    ->body('Invoice number already in use.')
-                    ->danger()
-                    ->send();
+        $validator = validator($data, [
+            'number' => ['required', 'regex:/^[0-9]+$/', 'unique:invoices,number'],
+            'amount' => ['required', 'regex:/^[0-9]+(\.[0-9]{1,2})?$/'],
+        ], [
+            'number.regex' => 'The invoice number must be a positive integer.',
+            'amount.regex' => 'The amount must be a positive number with up to two decimal places.',
+        ]);
 
-                throw ValidationException::withMessages([
-                    'number' => 'Invoice number already in use.',
-                ]);
-            }
+        if ($validator->fails()) {
+            Notification::make()
+                ->title('Validation Error')
+                ->body('Please correct the errors and try again.')
+                ->danger()
+                ->send();
 
-            throw $e;
+            throw ValidationException::withMessages($validator->errors()->toArray());
         }
+
+        return $data;
+    }
+
+    public static function mutateFormDataBeforeSave(array $data): array
+    {
+        return self::mutateFormDataBeforeCreate($data);
     }
 
     public static function getRelations(): array
