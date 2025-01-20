@@ -3,7 +3,7 @@
         <!-- Logo Section -->
         <a href="/" class="flex items-center">
             <img src="{{ asset('images/logo.svg') }}" alt="Logo" class="h-8 w-8">
-            <span class="text-xl font-bold ml-2 text-blue-600">Dental Clinic</span>
+            <span class="text-xl font-bold ml-2 text-blue-600">Smile Pro</span>
         </a>
 
         <!-- Centered Links -->

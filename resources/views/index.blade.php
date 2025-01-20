@@ -43,7 +43,7 @@
     <!-- Testimonials Section -->
     <div class="md:col-span-12 mt-16 bg-blue-600 text-white py-12 rounded-lg">
         <h2 class="text-3xl font-bold text-center">What Our Patients Say</h2>
-        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="m-6 grid grid-cols-1 md:grid-cols-3 gap-8">
             @foreach([
                 'Excellent service and friendly staff.',
                 'Highly recommend SmilePro to anyone!',
