@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Patient;
 
-class AppointmentController extends Controller
+class wAppointmentController extends Controller
 {
     public function store(Request $request)
     {

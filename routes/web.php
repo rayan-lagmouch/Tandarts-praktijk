@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\PDFController;
+use App\Http\Middleware\VerifyIsEmployee;
 
 Route::get('/', function () {
     return view('index');

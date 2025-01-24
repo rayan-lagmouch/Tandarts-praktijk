@@ -14,7 +14,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'is_admin',
         'person_id',
         'username',
         'is_logged_in',
@@ -29,25 +28,44 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'is_admin' => 'boolean',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
 
+    /**
+     * Check if the user is an admin.
+     *
+     * @return bool
+     */
     public function isAdmin(): bool
     {
-        return $this->email === 'admin@example.com';
+        // Check if the email ends with @admin.com
+        return str_ends_with($this->email, '@admin.com');
     }
 
+    /**
+     * Check if the user is an employee.
+     *
+     * @return bool
+     */
+    public function isEmployee(): bool
+    {
+        // Check if the email ends with @smilepro.com
+        return str_ends_with($this->email, '@smilepro.com');
+    }
+
+    /**
+     * Get the person associated with the user.
+     */
     public function person()
     {
         return $this->belongsTo(Person::class);
     }
 
+    /**
+     * Get the roles associated with the user.
+     */
     public function roles()
     {
         return $this->hasMany(Role::class);
