@@ -34,50 +34,10 @@ class Patient extends Model
     }
 
     /**
-     * Relationship to the Appointment model.
+     * Accessor to get the email of the patient.
      */
-    public function appointments()
+    public function getEmailAttribute()
     {
-        return $this->hasMany(Appointment::class);
-    }
-
-    /**
-     * Relationship to the Contact model.
-     */
-    public function contacts()
-    {
-        return $this->hasMany(Contact::class);
-    }
-
-    /**
-     * Relationship to the Treatment model.
-     */
-    public function treatments()
-    {
-        return $this->hasMany(Treatment::class);
-    }
-
-    /**
-     * Relationship to the Invoice model.
-     */
-    public function invoices()
-    {
-        return $this->hasMany(Invoice::class);
-    }
-
-    /**
-     * Relationship to the Communication model.
-     */
-    public function communications()
-    {
-        return $this->hasMany(Communication::class);
-    }
-
-    /**
-     * Relationship to the Feedback model.
-     */
-    public function feedbacks()
-    {
-        return $this->hasMany(Feedback::class);
+        return $this->person->email; // Assuming email is stored in `people` table
     }
 }

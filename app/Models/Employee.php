@@ -42,7 +42,6 @@ class Employee extends Model
     {
         return $this->hasMany(Appointment::class);
     }
-
     /**
      * Relationship to the Availability model.
      */
