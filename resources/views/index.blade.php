@@ -4,7 +4,7 @@
     <!-- Hero Section -->
     <div class="relative bg-blue-600 text-white py-16 text-center">
         <img
-            src="https://via.placeholder.com/1920x600"
+            src="images/banner.jpg"
             alt="Hero Banner"
             class="absolute inset-0 w-full h-full object-cover opacity-50"
         >

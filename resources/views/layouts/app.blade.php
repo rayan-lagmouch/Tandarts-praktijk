@@ -10,7 +10,8 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#0ea5e9',
+                        primary: '#87c3e5',
+
                     },
                 },
             },

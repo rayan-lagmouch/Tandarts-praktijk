@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         // Seed People, Employees, Patients, and other related data
         $this->seedPeopleAndRelations();
 
-        // Seed additional data as needed
+        // Seed additional data like appointments, feedback, etc.
         $this->seedAdditionalData();
     }
 
@@ -31,14 +31,13 @@ class DatabaseSeeder extends Seeder
      */
     private function seedAdminUser(): void
     {
-        $existingUser = DB::table('users')->where('email', 'admin@example.com')->first();
+        $existingUser = DB::table('users')->where('email', 'admin@admin.com')->first();
 
         if (!$existingUser) {
             DB::table('users')->insert([
                 'name' => 'Admin User',
-                'email' => 'admin@example.com',
+                'email' => 'admin@admin.com',
                 'password' => Hash::make('password'), // Change this for production
-                'is_admin' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -54,7 +53,7 @@ class DatabaseSeeder extends Seeder
      */
     private function seedRoles(): void
     {
-        $adminUser = DB::table('users')->where('email', 'admin@example.com')->first();
+        $adminUser = DB::table('users')->where('email', 'admin@admin.com')->first();
 
         DB::table('roles')->insert([
             [
@@ -163,6 +162,85 @@ class DatabaseSeeder extends Seeder
 
         $this->command->info('Feedback seeded successfully!');
 
-        // Seed other tables as needed...
+        // Seed Contacts
+        DB::table('contacts')->insert([
+            'patient_id' => $patient->id,
+            'street_name' => 'Main Street',
+            'house_number' => '123',
+            'postal_code' => '12345',
+            'city' => 'Cityville',
+            'mobile' => '1234567890',
+            'email' => 'contact@example.com',
+            'is_active' => true,
+            'note' => 'Primary contact',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $this->command->info('Contacts seeded successfully!');
+
+        // Seed Availabilities
+        DB::table('availabilities')->insert([
+            'employee_id' => $employee->id,
+            'from_date' => '2024-01-01',
+            'to_date' => '2024-12-31',
+            'from_time' => '09:00:00',
+            'to_time' => '17:00:00',
+            'status' => 'Present',
+            'is_active' => true,
+            'note' => 'Standard working hours',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $this->command->info('Availabilities seeded successfully!');
+
+        // Seed Treatments
+        DB::table('treatments')->insert([
+            'employee_id' => $employee->id,
+            'patient_id' => $patient->id,
+            'date' => '2024-12-20',
+            'time' => '10:00:00',
+            'treatment_type' => 'Routine Checkup',
+            'description' => 'General checkup with cleaning',
+            'cost' => 100.00,
+            'status' => 'Treated',
+            'is_active' => true,
+            'note' => 'No complications',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $this->command->info('Treatments seeded successfully!');
+
+        // Seed Invoices
+        DB::table('invoices')->insert([
+            'patient_id' => $patient->id,
+            'treatment_id' => 1, // Assuming this is the treatment we just inserted
+            'number' => 'INV001',
+            'date' => '2024-12-20',
+            'amount' => 100.00,
+            'status' => 'Paid',
+            'is_active' => true,
+            'note' => 'Payment received in full',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $this->command->info('Invoices seeded successfully!');
+
+        // Seed Communications
+        DB::table('communications')->insert([
+            'patient_id' => $patient->id,
+            'employee_id' => $employee->id,
+            'message' => 'Your appointment has been confirmed for 2024-12-20.',
+            'sent_date' => '2024-12-19',
+            'is_active' => true,
+            'note' => 'Appointment reminder',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $this->command->info('Communications seeded successfully!');
     }
 }
