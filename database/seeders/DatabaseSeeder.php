@@ -16,6 +16,9 @@ class DatabaseSeeder extends Seeder
         // Seed the Admin User
         $this->seedAdminUser();
 
+        // Seed an Employee User
+        $this->seedEmployeeUser();
+
         // Seed Roles
         $this->seedRoles();
 
@@ -45,6 +48,25 @@ class DatabaseSeeder extends Seeder
             $this->command->info('Admin user seeded successfully!');
         } else {
             $this->command->warn('Admin user already exists. Skipping user creation.');
+        }
+    }
+
+    private function seedEmployeeUser(): void
+    {
+        $existingUser = DB::table('users')->where('email', 'employee@smilepro.com')->first();
+
+        if (!$existingUser) {
+            DB::table('users')->insert([
+                'name' => 'Employee User',
+                'email' => 'employee@smilepro.com',
+                'password' => Hash::make('password'), // Ensure this is hashed
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            $this->command->info('Employee user created successfully!');
+        } else {
+            $this->command->info('Employee user already exists. Skipping creation.');
         }
     }
 
