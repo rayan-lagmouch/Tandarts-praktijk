@@ -26,6 +26,13 @@ class Employee extends Model
         return $this->belongsTo(Person::class, 'person_id');
     }
 
+    // In your Employee model
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id'); // Assuming 'user_id' is the foreign key in the employee table
+    }
+
+
     // Accessor om de volledige naam van de werknemer te krijgen
     public function getFullNameAttribute()
     {
